@@ -47,23 +47,23 @@ interface IProduct extends Document {
 const VariantSchema: Schema<IVariant> = new Schema<IVariant>({
   variantName: {
     type: String,
-    required: [true, "Variant Name is required."],
+    // required: [true, "Variant Name is required."],
   },
   sku: {
     type: String,
-    required: [true, "SKU is required."],
+    // required: [true, "SKU is required."],
   },
   price: {
     type: Number,
-    required: [true, "Price is required."],
+    // required: [true, "Price is required."],
   },
   priceSale: {
     type: Number,
-    required: [true, "Sale price is required."],
+    // required: [true, "Sale price is required."],
   },
   available: {
     type: Number,
-    required: [true, "Available quantity is required."],
+    // required: [true, "Available quantity is required."],
   },
   sold: {
     type: Number,
@@ -73,11 +73,11 @@ const VariantSchema: Schema<IVariant> = new Schema<IVariant>({
     {
       url: {
         type: String,
-        required: [true],
+        // required: [true],
       },
       _id: {
         type: String,
-        required: [true],
+        // required: [true],
       },
     },
   ],
@@ -94,23 +94,23 @@ const ProductSchema: Schema<IProduct> = new mongoose.Schema(
   {
     cover: {
       type: String,
-      required: [true, "Cover image is required."],
+      // required: [true, "Cover image is required."],
     },
     blurDataUrl: {
       type: String,
-      required: [true, "Blur data URL is required."],
+      // required: [true, "Blur data URL is required."],
     },
     name: {
       type: String,
-      required: [true, "Product name is required."],
+      // required: [true, "Product name is required."],
     },
     code: {
       type: String,
-      required: [true, "Product code is required."],
+      // required: [true, "Product code is required."],
     },
     status: {
       type: String,
-      required: [true, "Product status is required."],
+      // required: [true, "Product status is required."],
     },
     isFeatured: {
       type: Boolean,
@@ -129,15 +129,15 @@ const ProductSchema: Schema<IProduct> = new mongoose.Schema(
     },
     metaTitle: {
       type: String,
-      required: [true, "Meta title is required."],
+      // required: [true, "Meta title is required."],
     },
     metaDescription: {
       type: String,
-      required: [true, "Meta description is required."],
+      // required: [true, "Meta description is required."],
     },
     slug: {
       type: String,
-      required: [true, "Slug is required."],
+      // required: [true, "Slug is required."],
     },
     category: {
       type: mongoose.Types.ObjectId,
@@ -155,11 +155,11 @@ const ProductSchema: Schema<IProduct> = new mongoose.Schema(
     },
     selectedVariant: {
       type: Number,
-      required: [true, "Selected variant is required."],
+      // required: [true, "Selected variant is required."],
     },
     variants: {
       type: [VariantSchema],
-      required: [true, "Variants are required."],
+      // required: [true, "Variants are required."],
     },
     reviews: [
       {

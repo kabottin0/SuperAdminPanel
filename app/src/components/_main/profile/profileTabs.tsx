@@ -47,22 +47,22 @@ const sideItems = [
     name: "billing",
     icon: <ReceiptLongRoundedIcon />,
   },
-  // {
-  //   name: "wishlist",
-  //   icon: <FavoriteBorderRoundedIcon />,
-  // },
-  // {
-  //   name: "invoice",
-  //   icon: <ReceiptRoundedIcon />,
-  // },
-  // {
-  //   name: "general",
-  //   icon: <Person2RoundedIcon />,
-  // },
-  // {
-  //   name: "change-password",
-  //   icon: <VpnKeyRoundedIcon />,
-  // },
+  {
+    name: "wishlist",
+    icon: <FavoriteBorderRoundedIcon />,
+  },
+  {
+    name: "invoice",
+    icon: <ReceiptRoundedIcon />,
+  },
+  {
+    name: "general",
+    icon: <Person2RoundedIcon />,
+  },
+  {
+    name: "change-password",
+    icon: <VpnKeyRoundedIcon />,
+  },
  
 ];
 
@@ -160,7 +160,6 @@ export default function ProfileTabs() {
           // sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
           >
             <CustomersProfile />
-
           </Card>
         ) : index === 1 ? (
           <InvoiceHistory />

@@ -55,6 +55,19 @@ export default async function handler(
         res.status(400).json({ success: false });
       }
       break;
+    case "POST":
+      try {
+        console.log('creo ordine spero')
+       const orderCreate = await Orders.create({
+        ...req.body
+       })
+       res.status(200).json({ success: true, data: orderCreate });
+
+      } catch (error) {
+        console.log('error bad request')
+        res.status(400).json({ success: false, message: error.message });
+      }
+      break;
     case "PUT" /* Get a model by its ID */:
       try {
         const orders = await Orders.findByIdAndUpdate(id, req.body, {

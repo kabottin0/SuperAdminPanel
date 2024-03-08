@@ -28,8 +28,8 @@ export default function UserProfile() {
   }
   return (
     <Page title="User Profile | Nextstore" canonical="profile">
-      <ProfileCover />
-      <Container maxWidth={"lg"}>
+      {/* <ProfileCover /> */}
+      <Container maxWidth={"lg"} style={{ marginTop: "16px"}}>
         <Tabs />
       </Container>
     </Page>

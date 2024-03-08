@@ -80,6 +80,10 @@ export const getCustomers = async (payload: string) => {
   const { data } = await http.get(`/customers?id=${payload}`);
   return data;
 };
+export const updateCustomers = async ({ _id, ...payload }: any) => {
+  const { data } = await http.put(`/customers/${_id}`, payload);
+  return data;
+};
 export const deleteCustomer = async ({ _id }: any) => {
   const { data } = await http.delete(`/customers/${_id}`);
   return data;

@@ -5,6 +5,10 @@ import Orders from "models/Orders";
 import Cors from "cors";
 import jwtDecode from "jwt-decode";
 import { checkStatus } from "src/utils/checkStatus";
+import Notifications from "models/Notifications";
+import Products from "models/Products";
+
+
 // Initializing the cors middleware
 const cors = Cors({
   methods: ["GET", "PUT", "POST", "DELETE", "HEAD"],
@@ -33,6 +37,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
+        console.log('passa')
         var newQuery = { ...query };
         delete newQuery.page;
         const skip = 10;
@@ -62,6 +67,16 @@ export default async function handler(
         res.status(400).json({ success: false });
       }
       break;
+    // case "POST":
+    //   try {
+
+    //     console.log('create per favore')
+
+    //   } catch (error) {
+    //     console.log('error bad request')
+    //     res.status(400).json({ success: false, message: error.message });
+    //   }
+    //   break;
 
     default:
       res.status(400).json({ success: false });
