@@ -69,7 +69,7 @@ export default function Details({ ...props }) {
                           <Person2RoundedIcon />
                         </Button>
                         <Typography variant="h6">
-                          {t("customor-details")}
+                          {t("customer-details")}
                         </Typography>
                       </>
                     )}
