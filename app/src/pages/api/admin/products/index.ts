@@ -113,17 +113,17 @@ export default async function handler(
           return;
         }
 
-        const images = req.body.variants[0].images;
-        const blurDataUrl = await getBlurDataURL(images[0].url);
+        // const images = req.body.variants[0].images;
+        // const blurDataUrl = await getBlurDataURL(images[0].url);
 
         await Products.create({
           ...req.body,
-          subCategory: Boolean(req.body.subCategory)
-            ? req.body.subCategory
-            : mongoose.Schema.Types.ObjectId,
-          cover: images[0].url,
-          blurDataUrl: blurDataUrl,
-          likes: 0,
+          // subCategory: Boolean(req.body.subCategory)
+          //   ? req.body.subCategory
+          //   : mongoose.Schema.Types.ObjectId,
+          // cover: images[0].url,
+          // blurDataUrl: blurDataUrl,
+          // likes: 0,
         });
 
         res.status(201).json({ success: true, message: "product-created" });

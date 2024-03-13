@@ -26,16 +26,11 @@ import { FormatLineSpacing } from "@mui/icons-material";
 
 
 
-export default function CustomersProfileForm({ ...props }) {
-  const { onClose, customers, apicall } = props;
+export default function CustomersProfileFormEdit({ ...props }) {
+  const { onClose, customer, apicall } = props;
   const [loading, setloading] = useState(false);
   const { t } = useTranslation("common");
-
-
   const { user } = useSelector(({ user }: { user: any }) => user);
-
-
-
   const NewCustomersSchema = Yup.object().shape({
     customerName: Yup.string().required("customerName is required"),
     bussinessName: Yup.string().required("bussinessName is required"),
@@ -48,12 +43,12 @@ export default function CustomersProfileForm({ ...props }) {
   // const formik = useFormik({
   //   enableReinitialize: true,
   //   initialValues: {
-  //     customerName: customers ? customers.customerName : "",
-  //     businessName: customers ? customers.businessName : "",
-  //     address: customers ? customers.address : "",
-  //     email: customers ? customers.email : "",
-  //     phone: customers ? customers.phone : "",
-  //     iva: customers ? customers.iva : "",
+  //     customerName: customer ? customer.customerName : "",
+  //     businessName: customer ? customer.businessName : "",
+  //     address: customer ? customer.address : "",
+  //     email: customer ? customer.email : "",
+  //     phone: customer ? customer.phone : "",
+  //     iva: customer ? customer.iva : "",
   //   },
   //   validationSchema: NewCustomersSchema,
   //   // onSubmit: async () => {
@@ -69,13 +64,13 @@ export default function CustomersProfileForm({ ...props }) {
   // },
   // });
   const formik = useFormik({
-      initialValues: {
-      customerName: customers ? customers.customerName : "",
-      businessName: customers ? customers.businessName : "",
-      address: customers ? customers.address : "",
-      email: customers ? customers.email : "",
-      phone: customers ? customers.phone : "",
-      iva: customers ? customers.iva : "",
+    initialValues: {
+      customerName: customer ? customer.customerName : "",
+      businessName: customer ? customer.businessName : "",
+      address: customer ? customer.address : "",
+      email: customer ? customer.email : "",
+      phone: customer ? customer.phone : "",
+      iva: customer ? customer.iva : "",
     },
     // validationSchema: NewCustomersSchema,
     // onSubmit: values => {
@@ -84,18 +79,32 @@ export default function CustomersProfileForm({ ...props }) {
     onSubmit: async () => {
       setloading(true);
       try {
-         await handleCreate();
+        if (customer) {
+          await handleUpdate()
+        } else {
+          await handleCreate();
+        }
       } catch (error) {
         console.error(error);
       }
     },
   });
-  
-  
+  const { mutate } = useMutation(["update"], api.updateCustomers, {
+    onSuccess: (data) => {
+      apicall((prev: any) => ({ ...prev, apicall: !prev.apicall }));
+      setloading(false);
+      toast.success(t(data.message));
+      formik.resetForm();
+      onClose();
+    },
+    onError: () => setloading(false),
+  });
+
+
   const { mutate: createMutate } = useMutation(["create"], api.createCustomers, {
     onSuccess: () => {
       setloading(false);
-      toast.success(t("customers created"));
+      toast.success(t("customer created"));
       formik.resetForm();
       onClose();
     },
@@ -110,6 +119,16 @@ export default function CustomersProfileForm({ ...props }) {
     setFieldValue,
   } = formik;
 
+  const handleUpdate = async () => {
+    const data = {
+      ...values,
+      _id: customer._id,
+      user: user?._id,
+    };
+    await mutate(data);
+    apicall((prev: any) => ({ ...prev, apicall: !prev.apicall }));
+  };
+
   const handleCreate = async () => {
     const id = _.uniqueId();
     const data = {
@@ -123,7 +142,7 @@ export default function CustomersProfileForm({ ...props }) {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit}>
+      {/* <form onSubmit={formik.handleSubmit}>
         <label htmlFor="customerName">First Name</label>
         <input
           id="customerName"
@@ -149,7 +168,7 @@ export default function CustomersProfileForm({ ...props }) {
           value={formik.values.email}
         />
         <label htmlFor="phone">Phone</label>
-          <input
+        <input
           id="phone"
           name="phone"
           type="number"
@@ -157,7 +176,70 @@ export default function CustomersProfileForm({ ...props }) {
           value={formik.values.phone}
         />
         <button type="submit">Submit</button>
-      </form>
+        <button onClick={onClose}>Cancel</button>
+
+      </form> */}
+      <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Stack spacing={{ xs: 2, sm: 3 }} sx={{ p: 3 }}>
+          <TextField
+            fullWidth
+            label="customerName"
+            {...getFieldProps("customerName")}
+            error={Boolean(touched.customerName && errors.customerName)}
+            helperText={touched.customerName && (errors.customerName as string)}
+          />
+
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <PhoneAutocomplete
+              setFieldValue={setFieldValue}
+              phone={values.phone}
+              inputError={touched.phone && errors.phone}
+            />
+            {/* <TextField
+              fullWidth
+              label="Alternative Phone"
+              {...getFieldProps("phone")}
+              type="number"
+              error={Boolean(touched.phone && errors.phone)}
+              helperText={touched.phone && (errors.phone as string)}
+            /> */}
+
+            <TextField
+              fullWidth
+              label="businessName"
+              {...getFieldProps("businessName")}
+              error={Boolean(touched.businessName && errors.businessName)}
+              helperText={touched.businessName && (errors.businessName as string)}
+            />
+          </Stack>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <TextField
+              fullWidth
+              label="email"
+              {...getFieldProps("email")}
+              error={Boolean(touched.email && errors.email)}
+              helperText={touched.email && (errors.email as string)}
+            />
+            
+          </Stack>
+        </Stack>
+        <Divider />
+        <DialogActions>
+          <LoadingButton type="submit" variant="contained" loading={loading}>
+            Save Customer
+          </LoadingButton>
+          <Button
+            type="button"
+            color="inherit"
+            variant="outlined"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Form>
+    </FormikProvider>
     </>
   );
 }

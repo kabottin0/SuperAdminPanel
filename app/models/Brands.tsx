@@ -19,15 +19,15 @@ const BrandSchema: Schema<IBrand> = new mongoose.Schema(
     logo: {
       _id: {
         type: String,
-        required: [true, "image-id-required-error"],
+        // required: [true, "image-id-required-error"],
       },
       url: {
         type: String,
-        required: [true, "image-url-required-error"],
+        // required: [true, "image-url-required-error"],
       },
       blurDataUrl: {
         type: String,
-        required: [true, "image-blur-data-url-required-error"],
+        // required: [true, "image-blur-data-url-required-error"],
       },
     },
     name: {

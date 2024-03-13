@@ -6,6 +6,7 @@ import Notifications from "models/Notifications";
 import Cors from "cors";
 import jwtDecode from "jwt-decode";
 import { checkStatus } from "src/utils/checkStatus";
+import Ecommerce from "models/Ecommerce";
 // Initializing the cors middleware
 const cors = Cors({
   methods: ["GET", "PUT", "POST", "DELETE", "HEAD"],
@@ -35,7 +36,7 @@ export default async function handler(
     case "GET" /* Get a model by its ID */:
       try {
         await Notifications.findOneAndUpdate(
-          { orderId: id },
+          { ecommerceId: id },
           {
             opened: true,
           },
@@ -44,49 +45,49 @@ export default async function handler(
             runValidators: true,
           }
         );
-        const orders = await Orders.findOne({ _id: id });
-        if (!orders) {
+        const singleEcommerce = await Ecommerce.findOne({ _id: id });
+        if (!singleEcommerce) {
           return res
             .status(400)
             .json({ success: false, message: "item-could-not-found" });
         }
-        res.status(200).json({ success: true, data: orders });
+        res.status(200).json({ success: true, data: singleEcommerce });
       } catch (error) {
         res.status(400).json({ success: false });
       }
       break;
     case "POST":
       try {
-        console.log('creo ordine spero')
-       const orderCreate = await Orders.create({
+       const ecommerceCreate = await Ecommerce.create({
         ...req.body
        })
-       res.status(200).json({ success: true, data: orderCreate });
+       console.log('req.body', req.body)
+       res.status(200).json({ success: true, data: ecommerceCreate });
 
       } catch (error) {
         console.log('error bad request')
         res.status(400).json({ success: false, message: error.message });
       }
       break;
-    case "PUT" /* Get a model by its ID */:
-      try {
-        const orders = await Orders.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
-        });
-        if (!orders) {
-          return res
-            .status(400)
-            .json({ success: false, message: "item-could-not-found" });
-        }
-        res
-          .status(200)
-          .json({ success: true, message: "order-status-updated" });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    case "DELETE" /* Delete a model by its ID */:
+    // case "PUT" /* Get a model by its ID */:
+    //   try {
+    //     const orders = await Orders.findByIdAndUpdate(id, req.body, {
+    //       new: true,
+    //       runValidators: true,
+    //     });
+    //     if (!orders) {
+    //       return res
+    //         .status(400)
+    //         .json({ success: false, message: "item-could-not-found" });
+    //     }
+    //     res
+    //       .status(200)
+    //       .json({ success: true, message: "order-status-updated" });
+    //   } catch (error) {
+    //     res.status(400).json({ success: false });
+    //   }
+    //   break;
+    // case "DELETE" /* Delete a model by its ID */:
       try {
         const deleteOrder = await Orders.deleteOne({
           _id: id,

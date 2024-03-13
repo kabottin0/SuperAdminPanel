@@ -21,6 +21,7 @@ export default async function handler(
   switch (method) {
     case "POST":
       try {
+        console.log('bad request order')
         const items = req.body.items;
 
         for (var i = 0; i < items.length; i++) {
@@ -108,6 +109,7 @@ export default async function handler(
         //     });
         //   });
       } catch (error) {
+        console.log('error bad request')
         res.status(400).json({ success: false, message: error.message });
       }
       break;

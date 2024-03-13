@@ -5,6 +5,10 @@ import Orders from "models/Orders";
 import Cors from "cors";
 import jwtDecode from "jwt-decode";
 import { checkStatus } from "src/utils/checkStatus";
+import Notifications from "models/Notifications";
+import Products from "models/Products";
+
+
 // Initializing the cors middleware
 const cors = Cors({
   methods: ["GET", "PUT", "POST", "DELETE", "HEAD"],
@@ -32,36 +36,57 @@ export default async function handler(
 
   switch (method) {
     case "GET":
+      // try {
+      //   var newQuery = { ...query };
+      //   delete newQuery.page;
+      //   const skip = 10;
+      //   const totalOrders = await Orders.find({
+      //     "user.fullName": { $regex: query.search, $options: "i" },
+      //   });
+      //   const page: any = req.query.page;
+      //   const orders = await Orders.find(
+      //     {
+      //       "user.fullName": { $regex: query.search, $options: "i" },
+      //     },
+      //     null,
+      //     {
+      //       skip: skip * (parseInt(page) - 1 || 0),
+      //       limit: skip,
+      //     }
+      //   ).sort({
+      //     createdAt: -1,
+      //   });
+
+      //   res.status(200).json({
+      //     success: true,
+      //     data: orders,
+      //     count: Math.ceil(totalOrders.length / skip),
+      //   });
+      // } catch (error) {
+      //   res.status(400).json({ success: false });
+      // }
       try {
-        var newQuery = { ...query };
-        delete newQuery.page;
-        const skip = 10;
-        const totalOrders = await Orders.find({
-          "user.fullName": { $regex: query.search, $options: "i" },
-        });
-        const page: any = req.query.page;
-        const orders = await Orders.find(
-          {
-            "user.fullName": { $regex: query.search, $options: "i" },
-          },
-          null,
-          {
-            skip: skip * (parseInt(page) - 1 || 0),
-            limit: skip,
-          }
-        ).sort({
-          createdAt: -1,
-        });
+        const orders = await Orders.find();
 
         res.status(200).json({
           success: true,
           data: orders,
-          count: Math.ceil(totalOrders.length / skip),
+          count: orders.length,
         });
       } catch (error) {
         res.status(400).json({ success: false });
       }
       break;
+    // case "POST":
+    //   try {
+
+    //     console.log('create per favore')
+
+    //   } catch (error) {
+    //     console.log('error bad request')
+    //     res.status(400).json({ success: false, message: error.message });
+    //   }
+    //   break;
 
     default:
       res.status(400).json({ success: false });

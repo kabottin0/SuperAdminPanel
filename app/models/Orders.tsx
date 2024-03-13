@@ -26,30 +26,30 @@ const OrderSchema: Schema<IOrder> = new mongoose.Schema(
   {
     paymentMethod: {
       type: String,
-      required: [true, "Payment Method is required."],
+      // required: [true, "Payment Method is required."],
     },
     subTotal: {
       type: String,
-      required: [true, "Subtotal is required."],
+      // required: [true, "Subtotal is required."],
     },
     total: {
       type: String,
-      required: [true, "Total is required."],
+      // required: [true, "Total is required."],
     },
     shipping: {
       type: Number,
-      required: [true, "Shipping is required."],
+      // required: [true, "Shipping is required."],
     },
     discount: {
       type: Number,
     },
     basePrice: {
       type: Number,
-      required: [true, "Base price is required."],
+      // required: [true, "Base price is required."],
     },
     currency: {
       type: String,
-      required: [true, "Currency is required."],
+      // required: [true, "Currency is required."],
     },
     status: {
       type: String,
@@ -62,7 +62,7 @@ const OrderSchema: Schema<IOrder> = new mongoose.Schema(
     },
     user: {
       type: Object,
-      required: [true, "User is required."],
+      // required: [true, "User is required."],
     },
   },
   {

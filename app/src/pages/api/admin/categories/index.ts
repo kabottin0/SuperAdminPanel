@@ -71,14 +71,14 @@ export default async function handler(
     case "POST":
       try {
         const { cover, ...others } = req.body;
-        const blurDataUrl = await getBlurDataURL(req.body.cover.url);
+        // const blurDataUrl = await getBlurDataURL(req.body.cover.url);
 
         await Categories.create<ICategory>({
           ...others,
-          cover: {
-            ...cover,
-            blurDataUrl,
-          },
+          // cover: {
+          //   ...cover,
+          //   blurDataUrl,
+          // },
         });
 
         res.status(201).json({ success: true, message: "category-created" });

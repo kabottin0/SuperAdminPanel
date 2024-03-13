@@ -23,7 +23,7 @@ const SubCategorySchema: Schema<ISubCategory> = new mongoose.Schema(
   {
     cover: {
       type: Object,
-      required: true,
+      // required: true,
     },
     name: {
       type: String,

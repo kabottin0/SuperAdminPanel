@@ -23,14 +23,13 @@ export interface ICategory extends Document {
 
 const CategorySchema: Schema<ICategory> = new mongoose.Schema(
   {
-    cover: {
-      _id: { type: String, required: [true, "image-id-required-error"] },
-      url: { type: String, required: [true, "image-url-required-error"] },
-      blurDataUrl: {
-        type: String,
-        required: [true, "image-blur-data-url-required-error"],
-      },
-    },
+    // cover: {
+    //   _id: { type: String, },
+    //   url: { type: String,  },
+    //   blurDataUrl: {
+    //     type: String,
+    //   },
+    // },
     name: {
       type: String,
       required: [true, "Name is required."],
