@@ -36,32 +36,42 @@ export default async function handler(
 
   switch (method) {
     case "GET":
+      // try {
+      //   var newQuery = { ...query };
+      //   delete newQuery.page;
+      //   const skip = 10;
+      //   const totalOrders = await Orders.find({
+      //     "user.fullName": { $regex: query.search, $options: "i" },
+      //   });
+      //   const page: any = req.query.page;
+      //   const orders = await Orders.find(
+      //     {
+      //       "user.fullName": { $regex: query.search, $options: "i" },
+      //     },
+      //     null,
+      //     {
+      //       skip: skip * (parseInt(page) - 1 || 0),
+      //       limit: skip,
+      //     }
+      //   ).sort({
+      //     createdAt: -1,
+      //   });
+
+      //   res.status(200).json({
+      //     success: true,
+      //     data: orders,
+      //     count: Math.ceil(totalOrders.length / skip),
+      //   });
+      // } catch (error) {
+      //   res.status(400).json({ success: false });
+      // }
       try {
-        console.log('passa')
-        var newQuery = { ...query };
-        delete newQuery.page;
-        const skip = 10;
-        const totalOrders = await Orders.find({
-          "user.fullName": { $regex: query.search, $options: "i" },
-        });
-        const page: any = req.query.page;
-        const orders = await Orders.find(
-          {
-            "user.fullName": { $regex: query.search, $options: "i" },
-          },
-          null,
-          {
-            skip: skip * (parseInt(page) - 1 || 0),
-            limit: skip,
-          }
-        ).sort({
-          createdAt: -1,
-        });
+        const orders = await Orders.find();
 
         res.status(200).json({
           success: true,
           data: orders,
-          count: Math.ceil(totalOrders.length / skip),
+          count: orders.length,
         });
       } catch (error) {
         res.status(400).json({ success: false });

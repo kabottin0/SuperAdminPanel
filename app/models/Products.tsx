@@ -41,6 +41,7 @@ interface IProduct extends Document {
   selectedVariant: number;
   variants: IVariant[];
   reviews: mongoose.Types.ObjectId[];
+  createdAt: string;
 }
 
 // Define the schema for the Variant sub-document
@@ -138,6 +139,9 @@ const ProductSchema: Schema<IProduct> = new mongoose.Schema(
     slug: {
       type: String,
       // required: [true, "Slug is required."],
+    },
+    createdAt: {
+      type: String,
     },
     category: {
       type: mongoose.Types.ObjectId,
