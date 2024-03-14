@@ -7,18 +7,19 @@ import mongoose, { Document, Schema } from "mongoose";
 
 // Interface representing a single document in the Order collection
 interface IEcommerce extends Document {
-  ecommerceName: string;
+  name: string;
   domain: string;
   status?: string;
-  orderNo?: string;
   user: object;
+  webUser: string;
+  webPassword: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const EcommerceSchema: Schema<IEcommerce> = new mongoose.Schema(
   {
-    ecommerceName: {
+    name: {
       type: String,
       // required: [true, "Payment Method is required."],
     },
@@ -29,12 +30,17 @@ const EcommerceSchema: Schema<IEcommerce> = new mongoose.Schema(
     status: {
       type: String,
     },
-    orderNo: {
-      type: String,
-    },
     user: {
       type: Object,
       // required: [true, "User is required."],
+    },
+    webUser: {
+      type: String,
+      // required: [true, "Subtotal is required."],
+    },
+    webPassword: {
+      type: String,
+      // required: [true, "Subtotal is required."],
     },
   },
   {

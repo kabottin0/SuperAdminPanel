@@ -7,16 +7,10 @@ import mongoose, { Document, Schema } from "mongoose";
 
 // Interface representing a single document in the Order collection
 interface IOrder extends Document {
-  paymentMethod: string;
-  subTotal: string;
-  total: string;
-  shipping: number;
-  discount?: number;
-  basePrice: number;
-  currency: string;
-  status?: string;
-  orderNo?: string;
+  domain: string;
+  note: string;
   items?: any[];
+  status?: string;
   user: object;
   createdAt: Date;
   updatedAt: Date;
@@ -24,37 +18,15 @@ interface IOrder extends Document {
 
 const OrderSchema: Schema<IOrder> = new mongoose.Schema(
   {
-    paymentMethod: {
+    domain: {
       type: String,
-      // required: [true, "Payment Method is required."],
+      // required: [true, "domain is required."],
     },
-    subTotal: {
+    note: {
       type: String,
-      // required: [true, "Subtotal is required."],
-    },
-    total: {
-      type: String,
-      // required: [true, "Total is required."],
-    },
-    shipping: {
-      type: Number,
-      // required: [true, "Shipping is required."],
-    },
-    discount: {
-      type: Number,
-    },
-    basePrice: {
-      type: Number,
-      // required: [true, "Base price is required."],
-    },
-    currency: {
-      type: String,
-      // required: [true, "Currency is required."],
+      // required: [true, "note is required."],
     },
     status: {
-      type: String,
-    },
-    orderNo: {
       type: String,
     },
     items: {
