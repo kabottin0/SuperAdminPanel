@@ -11,6 +11,7 @@ interface IOrder extends Document {
   note: string;
   items?: any[];
   status?: string;
+  orderId: number;
   user: object;
   createdAt: Date;
   updatedAt: Date;
@@ -18,6 +19,7 @@ interface IOrder extends Document {
 
 const OrderSchema: Schema<IOrder> = new mongoose.Schema(
   {
+    
     domain: {
       type: String,
       // required: [true, "domain is required."],
@@ -28,6 +30,9 @@ const OrderSchema: Schema<IOrder> = new mongoose.Schema(
     },
     status: {
       type: String,
+    },
+    orderId:{
+      type: Number,
     },
     items: {
       type: Array,
