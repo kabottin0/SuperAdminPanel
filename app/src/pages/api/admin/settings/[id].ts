@@ -10,6 +10,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getBlurDataURL } from "src/utils/getBlurDataURL";
 import { isValidToken } from "src/utils/jwt";
 import Settings from "models/Settings";
+import axios from "axios";
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -30,30 +31,41 @@ export default async function handler(
   const {
     query: { id },
     method,
+    headers: { authorization },
   } = req;
 
-  
-
-  if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
-      return res.status(401).json({ message: 'Missing Authorization Header' });
-  }
-
-  // verify auth credentials
-  const base64Credentials =  req.headers.authorization.split(' ')[1];
-  const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-  const [username, password] = credentials.split(':');
-  const webUser = req.body.webUser
-  const webPassword = req.body.webPassword
-
-
-
-  if (username !== webUser || password !== webPassword) {
-      return res.status(401).json({ message: 'Invalid Authentication Credentials' });
-  }
- 
+  const { status } = jwtDecode<any>(authorization as any);
+  checkStatus(res, status);
   await dbConnect();
 
   switch (method) {
+    case "POST":
+      try {
+
+      } catch (error) {
+        const setting = await Settings.findById(id)
+        if (setting) {
+          const updateSetting = await Settings.findByIdAndUpdate(id, req.body, {
+            new: true,
+            runValidators: true,
+          });
+          const sendSetting = await axios.post('http://localhost:3001/api/admin/send-setting');
+          if (sendSetting.status === 200) {
+            return res.status(200).json({ success: true, message: "settings-updated" });
+          } else {
+            return res.status(500).json({ success: false, message: "error-sending-to-other-api" });
+          }
+          if (!updateSetting) {
+            return res
+              .status(400)
+              .json({ success: false, message: "item-could-not-found" });
+          }
+          res
+            .status(200)
+            .json({ success: true, message: "settings-updated" });
+        } 
+      }
+      break;
     case "PUT":
       res.status(200).json({ success: true, message: "settings-updated" });
         try {
