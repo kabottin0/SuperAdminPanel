@@ -31,60 +31,54 @@ export default async function handler(
   const {
     query: { id },
     method,
-    headers: { authorization },
+    // headers: { authorization },
   } = req;
 
-  const { status } = jwtDecode<any>(authorization as any);
-  checkStatus(res, status);
+  // const { status } = jwtDecode<any>(authorization as any);
+  // checkStatus(res, status);
   await dbConnect();
 
   switch (method) {
     case "POST":
+      const { domain } = req.body
       try {
+        const setting = await Settings.findOne({ domain });
 
-      } catch (error) {
-        const setting = await Settings.findById(id)
         if (setting) {
-          const updateSetting = await Settings.findByIdAndUpdate(id, req.body, {
+          const updateSetting = await Settings.findByIdAndUpdate(setting?._id, req.body, {
             new: true,
             runValidators: true,
           });
-          const sendSetting = await axios.post('http://localhost:3001/api/admin/send-setting');
-          if (sendSetting.status === 200) {
-            return res.status(200).json({ success: true, message: "settings-updated" });
-          } else {
-            return res.status(500).json({ success: false, message: "error-sending-to-other-api" });
-          }
-          if (!updateSetting) {
-            return res
-              .status(400)
-              .json({ success: false, message: "item-could-not-found" });
-          }
-          res
-            .status(200)
-            .json({ success: true, message: "settings-updated" });
-        } 
+          res.status(200).json({ success: true, message: "settings-updated and send", data: updateSetting });
+
+          await axios.post('http://localhost:3001/api/admin/settings/send-settings', req.body);
+
+        }
+      } catch (error) {
+        // Gestisci gli errori qui, ad esempio inviando un messaggio di errore generico al client
+        res.status(500).json({ success: false, message: error.message });
       }
       break;
+
     case "PUT":
       res.status(200).json({ success: true, message: "settings-updated" });
-        try {
-          const settings = await Settings.findByIdAndUpdate(id, req.body, {
-            new: true,
-            runValidators: true,
-          });
-          if (!settings) {
-            return res
-              .status(400)
-              .json({ success: false, message: "item-could-not-found" });
-          }
-          res
-            .status(200)
-            .json({ success: true, message: "settings-updated" });
-        } catch (error) {
-          res.status(400).json({ success: false });
+      try {
+        const settings = await Settings.findByIdAndUpdate(id, req.body, {
+          new: true,
+          runValidators: true,
+        });
+        if (!settings) {
+          return res
+            .status(400)
+            .json({ success: false, message: "item-could-not-found" });
         }
-        break;
+        res
+          .status(200)
+          .json({ success: true, message: "settings-updated" });
+      } catch (error) {
+        res.status(400).json({ success: false });
+      }
+      break;
     case "DELETE":
       try {
         const product = await Products.findOne({ slug: id });
