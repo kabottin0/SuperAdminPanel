@@ -42,18 +42,19 @@ export default async function handler(
     case "POST":
       const { domain } = req.body
       try {
-        const setting = await Settings.findOne({ domain });
+        // console.log('passo ed entro', req.body)
+        // await Settings.findOne({ domain });
 
-        if (setting) {
-          const updateSetting = await Settings.findByIdAndUpdate(setting?._id, req.body, {
-            new: true,
-            runValidators: true,
-          });
-          res.status(200).json({ success: true, message: "settings-updated and send", data: updateSetting });
+        // if (setting) {
+        //   const updateSetting = await Settings.findByIdAndUpdate(setting?._id, req.body, {
+        //     new: true,
+        //     runValidators: true,
+        //   });
+        //   res.status(200).json({ success: true, message: "settings-updated and send", data: updateSetting });
 
           await axios.post('http://localhost:3001/api/admin/settings/send-settings', req.body);
 
-        }
+          res.status(200).json({ success: true, message: "settings sent"});
       } catch (error) {
         // Gestisci gli errori qui, ad esempio inviando un messaggio di errore generico al client
         res.status(500).json({ success: false, message: error.message });
