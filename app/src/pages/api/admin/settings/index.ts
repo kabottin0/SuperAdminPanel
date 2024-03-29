@@ -42,14 +42,14 @@ export default async function handler(
 
   await dbConnect();
 
-  // if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
-  //   return res.status(401).json({ message: 'Missing Authorization Header' });
-  // }
+  if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
+    return res.status(401).json({ message: 'Missing Authorization Header' });
+  }
 
-  // // verify auth credentials
-  // const base64Credentials = req.headers.authorization.split(' ')[1];
-  // const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-  // const [username, password] = credentials.split(':');
+  // verify auth credentials
+  const base64Credentials = req.headers.authorization.split(' ')[1];
+  const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+  const [username, password] = credentials.split(':');
 
   switch (method) {
     case "GET":
@@ -75,7 +75,7 @@ export default async function handler(
     case "POST":
 
       try {
-        console.log('passo da index per la post di setting')
+        console.log('passo da index per la post di setting local host 3000')
         // if (!authorization) {
         //   res.status(401).json({ success: false, message: "unauthorized" });
         //   return;
