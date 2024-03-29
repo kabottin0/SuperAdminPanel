@@ -9,6 +9,10 @@ export const register = async (payload: any) => {
   const { data } = await http.post(`/auth/register`, payload);
   return data;
 };
+export const accessToSetting = async (id: any) => {
+  const { data } = await http.get(`http://localhost:3001/api/admin/settings/${id}`);
+  return data;
+};
 export const getProducts = async (query: any) => {
   query = query || "";
   const { data } = await http.get(`/products${query}`);

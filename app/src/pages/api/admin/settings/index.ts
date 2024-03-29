@@ -75,21 +75,6 @@ export default async function handler(
     case "POST":
 
       try {
-        console.log('passo da index per la post di setting local host 3000')
-        // if (!authorization) {
-        //   res.status(401).json({ success: false, message: "unauthorized" });
-        //   return;
-        // }
-
-        // Token validation
-        // const isValid = isValidToken(authorization);
-
-        // if (!isValid) {
-        //   res.status(401).json({ success: false, message: "token-expired" });
-        //   return;
-        // }
-
-
 
         await Settings.create({
           ...req.body,

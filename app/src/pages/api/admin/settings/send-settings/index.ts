@@ -38,7 +38,7 @@ export default async function handler(
 
   const {
     method,
-    query: { id },
+    query,
   } = req;
 
   await dbConnect();
@@ -69,54 +69,6 @@ export default async function handler(
           success: true,
           data: settings,
         });
-      } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-      }
-      break;
-    case "POST":
-
-      try {
-        // if (!authorization) {
-        //   res.status(401).json({ success: false, message: "unauthorized" });
-        //   return;
-        // }
-
-        // Token validation
-        // const isValid = isValidToken(authorization);
-
-        // if (!isValid) {
-        //   res.status(401).json({ success: false, message: "token-expired" });
-        //   return;
-        // }
-          const setting = await Settings.findById(id)
-          if (setting) {
-            const updateSetting = await Settings.findByIdAndUpdate(id, req.body, {
-              new: true,
-              runValidators: true,
-            });
-            const sendSetting = await axios.post('http://localhost:3001/api/admin/send-settings');
-            if (sendSetting.status === 200) {
-              res.status(200).json({ success: true, message: "settings-updated" });
-            } else {
-              res.status(500).json({ success: false, message: "error-sending-to-other-api" });
-            }
-            if (!updateSetting) {
-              return res
-                .status(400)
-                .json({ success: false, message: "item-could-not-found" });
-            }
-            res
-              .status(200)
-              .json({ success: true, message: "settings-updated" });
-          } else {
-            await Settings.create({
-              ...req.body,
-            });
-            await axios.post('http://localhost:3001/api/admin/send-settings');
-          }
-
-
-        res.status(201).json({ success: true, message: "settings-update" });
       } catch (error) {
         res.status(400).json({ success: false, message: error.message });
       }

@@ -11,6 +11,7 @@ import { getBlurDataURL } from "src/utils/getBlurDataURL";
 import { isValidToken } from "src/utils/jwt";
 import Settings from "models/Settings";
 import axios from "axios";
+import { accessToSetting } from "src/services";
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -39,24 +40,15 @@ export default async function handler(
   await dbConnect();
 
   switch (method) {
+    case "GET":
+     const test = await accessToSetting(id)
+     res.status(200).json({ success: true, message: "settings get", data: test});
+      break;
     case "POST":
-      const { domain } = req.body
       try {
-        // console.log('passo ed entro', req.body)
-        // await Settings.findOne({ domain });
-
-        // if (setting) {
-        //   const updateSetting = await Settings.findByIdAndUpdate(setting?._id, req.body, {
-        //     new: true,
-        //     runValidators: true,
-        //   });
-        //   res.status(200).json({ success: true, message: "settings-updated and send", data: updateSetting });
-
           await axios.post('http://localhost:3001/api/admin/settings/send-settings', req.body);
-
           res.status(200).json({ success: true, message: "settings sent"});
       } catch (error) {
-        // Gestisci gli errori qui, ad esempio inviando un messaggio di errore generico al client
         res.status(500).json({ success: false, message: error.message });
       }
       break;
