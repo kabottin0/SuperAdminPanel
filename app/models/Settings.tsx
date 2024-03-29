@@ -18,7 +18,21 @@ interface ISettings extends Document {
   registration: string;
   payments: string;
   offered: boolean;
-  ecommerceModule?: any[];
+  ecommerceModule: {
+    birthDiscount: boolean,
+    welcomeDiscount: boolean,
+    voucher: boolean,
+    promoCode: boolean,
+    notification: boolean,
+    wishList: boolean,
+    news: boolean,
+    newArrive: boolean,
+    promo: boolean,
+    evidence: boolean,
+    bestSelling: boolean,
+    palletVisible: boolean,
+    lineVisible: boolean
+  }
   siteColor?: {
     primary: string;
     secondary: string;
@@ -43,7 +57,21 @@ const SettingsSchema: Schema<ISettings> = new mongoose.Schema(
     registration: { type: String, required: true },
     payments: { type: String, required: true },
     offered: { type: Boolean, required: true },
-    ecommerceModule: [{ type: Schema.Types.Mixed }],
+    ecommerceModule: {
+      birthDiscount: {type: Boolean},
+      welcomeDiscount: {type: Boolean},
+      voucher: {type: Boolean},
+      promoCode: {type: Boolean},
+      notification: {type: Boolean},
+      wishList: {type: Boolean},
+      news: {type: Boolean},
+      newArrive: {type: Boolean},
+      promo: {type: Boolean},
+      evidence: {type: Boolean},
+      bestSelling: {type: Boolean},
+      palletVisible: {type: Boolean},
+      lineVisible: {type: Boolean}
+    },
     siteColor: {
       primary: { type: String },
       secondary: { type: String }
@@ -54,6 +82,8 @@ const SettingsSchema: Schema<ISettings> = new mongoose.Schema(
   }
 );
 
-// Export the Order model based on the OrderSchema
-export default (mongoose.models.Settings as mongoose.Model<ISettings>) ||
+const Settings: Model<ISettings> =
+  (mongoose.models.Settings as Model<ISettings>) ||
   mongoose.model<ISettings>("Settings", SettingsSchema);
+
+export default Settings;
