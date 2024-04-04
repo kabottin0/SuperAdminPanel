@@ -10,7 +10,8 @@ export const register = async (payload: any) => {
   return data;
 };
 export const accessToSetting = async (id: any) => {
-  const { data } = await http.get(`http://localhost:3001/api/admin/settings/${id}`);
+  //l'instanza è una sola del superadmin quindi possiamo metterlo a mano il dominio
+  const { data } = await http.get(`http://localhost:3000/api/admin/settings/${id}`);
   return data;
 };
 export const getProducts = async (query: any) => {

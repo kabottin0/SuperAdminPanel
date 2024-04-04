@@ -124,7 +124,7 @@ export default function Home({
   categories,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation("home");
-
+  return (<h1>live...</h1>)
   return (
     <Page
       title="NEXTSTORE Open Source Reactjs Ecommerce script"
