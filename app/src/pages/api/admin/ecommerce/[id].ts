@@ -87,12 +87,12 @@ export default async function handler(
     //     res.status(400).json({ success: false });
     //   }
     //   break;
-    // case "DELETE" /* Delete a model by its ID */:
+    case "DELETE" /* Delete a model by its ID */:
       try {
-        const deleteOrder = await Orders.deleteOne({
+        const deleteEcommerce = await Ecommerce.deleteOne({
           _id: id,
         });
-        if (!deleteOrder) {
+        if (!deleteEcommerce) {
           return res.status(400).json({ success: false });
         }
         res.status(200).json({ success: true, message: "deleted-success" });

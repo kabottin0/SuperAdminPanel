@@ -48,11 +48,12 @@ export default async function handler(
       break;
     // case "POST":
     //   try {
+    //     console.log('passo da qui')
     //     await Ecommerce.create({...req.body});
     //     res.status(201).json({ success: true, message: "ecommerce-created" });
     //   } catch (error) {
     //     console.error(error);
-    //     res.status(400).json({ success: false });
+    //     res.status(400).json({ success: false , message: error.message});
     //   }
     //   break;
 
