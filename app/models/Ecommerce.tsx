@@ -13,6 +13,9 @@ interface IEcommerce extends Document {
   user: object;
   webUser: string;
   webPassword: string;
+  restUser: string;
+  restPassword: string;
+  avaible: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -42,6 +45,17 @@ const EcommerceSchema: Schema<IEcommerce> = new mongoose.Schema(
       type: String,
       // required: [true, "Subtotal is required."],
     },
+    restUser: {
+      type: String,
+      // required: [true, "Subtotal is required."],
+    },
+    restPassword: {
+      type: String,
+      // required: [true, "Subtotal is required."],
+    },
+    avaible:{
+      type: Boolean,
+    }
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields automatically
